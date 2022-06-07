@@ -24,9 +24,16 @@ import butterknife.ButterKnife;
 public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder> {
 
     private final List<Neighbour> mNeighbours;
+    private final OnItemClickListener listener;
 
-    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items) {
+    public interface OnItemClickListener {
+        void onItemClick( Neighbour neighbour);
+    }
+
+
+    public MyNeighbourRecyclerViewAdapter(List<Neighbour> items, OnItemClickListener listener) {
         mNeighbours = items;
+        this.listener = listener;
     }
 
     @Override
@@ -51,7 +58,15 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                listener.onItemClick(neighbour);
+            }
+        });
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -71,4 +86,6 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
             ButterKnife.bind(this, view);
         }
     }
+
+
 }

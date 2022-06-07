@@ -1,6 +1,7 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -19,6 +20,7 @@ import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -60,7 +62,25 @@ public class NeighbourFragment extends Fragment {
      */
     private void initList() {
         mNeighbours = mApiService.getNeighbours();
-        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
+        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours, new MyNeighbourRecyclerViewAdapter.OnItemClickListener() {
+
+          // on clique sur l'item neighbour qui permet d'accéder à l'activité userprofil
+            @Override
+            public void onItemClick(Neighbour neighbour) {
+               Intent intent = new Intent(getContext(),UserProfilActivity.class);
+
+              // envoi des data
+                intent.putExtra("avatarName",neighbour.getName().toString());
+                intent.putExtra("name",neighbour.getName().toString());
+                intent.putExtra("address",neighbour.getAddress().toString());
+                intent.putExtra("phone",neighbour.getPhoneNumber().toString());
+                intent.putExtra("url",neighbour.getAvatarUrl().toString());
+                intent.putExtra("aboutUser",neighbour.getAboutMe().toString());
+
+
+               getContext().startActivity(intent);
+            }
+        }));
     }
 
     @Override
