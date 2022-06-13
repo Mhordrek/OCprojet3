@@ -13,8 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +44,9 @@ public class UserProfilActivity extends AppCompatActivity {
     @BindView(R.id.favorite)
     ImageButton favoriteButton;
 
+    NeighbourApiService mApiService;
+
+
 
 
     @Override
@@ -48,9 +54,14 @@ public class UserProfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userprofil);
         ButterKnife.bind(this);
+        mApiService = DI.getNeighbourApiService();
+
+
+
 
         Intent intent = this.getIntent();
         // reception des data
+        Long Id = intent.getLongExtra("id",-1);
         String AvatarName = intent.getStringExtra("avatarName");
         neighbourAvatarName.setText(AvatarName);
         String name = intent.getStringExtra("name");
@@ -64,6 +75,11 @@ public class UserProfilActivity extends AppCompatActivity {
         String aboutUser = intent.getStringExtra("aboutUser");
         mAboutMe.setText(aboutUser);
 
+        Glide
+                .with(UserProfilActivity.this)
+                .load(mNeighbourUrl)
+                .into(neighbourAvatar);
+
         // bouton qui permet de revenir à l'activité précédente
 
 
@@ -74,6 +90,21 @@ public class UserProfilActivity extends AppCompatActivity {
             }
         });
 
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Neighbour neighbour = new Neighbour(
+                        Id,
+                        mUserName.getText().toString(),
+                        mNeighbourUrl.getText().toString(),
+                        mNeighbourAddress.getText().toString(),
+                        mPhoneNumber.getText().toString(),
+                        mAboutMe.getText().toString()
+                );
+                mApiService.addFavoriteNeighbour(neighbour);
+
+            }
+        });
 
 
 

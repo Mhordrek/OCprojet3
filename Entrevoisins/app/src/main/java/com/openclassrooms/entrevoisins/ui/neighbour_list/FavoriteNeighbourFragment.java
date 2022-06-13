@@ -20,11 +20,10 @@ import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.Serializable;
 import java.util.List;
 
 
-public class NeighbourFragment extends Fragment {
+public class FavoriteNeighbourFragment extends Fragment {
 
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
@@ -33,10 +32,10 @@ public class NeighbourFragment extends Fragment {
 
     /**
      * Create and return a new instance
-     * @return @{@link NeighbourFragment}
+     * @return @{@link FavoriteNeighbourFragment}
      */
-    public static NeighbourFragment newInstance() {
-        NeighbourFragment fragment = new NeighbourFragment();
+    public static FavoriteNeighbourFragment newInstance() {
+        FavoriteNeighbourFragment fragment = new FavoriteNeighbourFragment();
         return fragment;
     }
 
@@ -49,7 +48,7 @@ public class NeighbourFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_neighbour_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_favorite_neighbour_list, container, false);
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -61,25 +60,24 @@ public class NeighbourFragment extends Fragment {
      * Init the List of neighbours
      */
     private void initList() {
-        mNeighbours = mApiService.getNeighbours();
-        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours, new MyNeighbourRecyclerViewAdapter.OnItemClickListener() {
-
-          // on clique sur l'item neighbour qui permet d'accéder à l'activité userprofil
+        mNeighbours = mApiService.getFavoriteNeighbours();
+        mRecyclerView.setAdapter(new MyFavoriteNeighbourRecyclerViewAdapter(mNeighbours, new MyFavoriteNeighbourRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Neighbour neighbour) {
-               Intent intent = new Intent(getContext(),UserProfilActivity.class);
 
-              // envoi des data
-                intent.putExtra("id",neighbour.getId());
-                intent.putExtra("avatarName",neighbour.getName());
-                intent.putExtra("name",neighbour.getName());
-                intent.putExtra("address",neighbour.getAddress());
-                intent.putExtra("phone",neighbour.getPhoneNumber());
-                intent.putExtra("url",neighbour.getAvatarUrl());
-                intent.putExtra("aboutUser",neighbour.getAboutMe());
+                Intent intent = new Intent(getContext(),UserProfilActivity.class);
+
+                // envoi des data
+                intent.putExtra("avatarName",neighbour.getName().toString());
+                intent.putExtra("name",neighbour.getName().toString());
+                intent.putExtra("address",neighbour.getAddress().toString());
+                intent.putExtra("phone",neighbour.getPhoneNumber().toString());
+                intent.putExtra("url",neighbour.getAvatarUrl().toString());
+                intent.putExtra("aboutUser",neighbour.getAboutMe().toString());
 
 
-               getContext().startActivity(intent);
+                getContext().startActivity(intent);
+
             }
         }));
     }

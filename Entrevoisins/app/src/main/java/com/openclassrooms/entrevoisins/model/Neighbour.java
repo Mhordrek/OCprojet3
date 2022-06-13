@@ -25,6 +25,10 @@ public class Neighbour {
     /** About me */
     private String aboutMe;
 
+
+
+
+
     /**
      * Constructor
      * @param id
@@ -39,6 +43,7 @@ public class Neighbour {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.aboutMe = aboutMe;
+
     }
 
     public long getId() {
