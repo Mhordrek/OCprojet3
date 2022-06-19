@@ -4,18 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_dark_background"
+    android:background="#E2E4E7"
     tools:context=".ui.neighbour_list.UserProfilActivity">
+
 
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="match_parent"
         android:layout_height="309dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="421dp"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_account"
         tools:srcCompat="@tools:sample/avatars" />
-
 
     <TextView
         android:id="@+id/avatarname"
@@ -25,59 +30,86 @@
         android:layout_marginTop="242dp"
         android:layout_marginEnd="241dp"
         android:layout_marginBottom="453dp"
+        android:textColor="@android:color/white"
+        android:textSize="24dp"
         android:text="Username"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="380dp"
+        android:layout_height="54dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="334dp"
+        android:layout_marginBottom="343dp"
+        android:background="@color/cardview_light_background"
+        android:text="Username"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="380dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="388dp"
         android:layout_marginEnd="15dp"
-        android:orientation="vertical"
+        android:layout_marginBottom="289dp"
+        android:background="@color/cardview_light_background"
+        android:text="Adresse"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatar">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="380dp"
-            android:layout_height="54dp"
-            android:background="@color/cardview_light_background"
-            android:text="Username" />
+    <TextView
+        android:id="@+id/phoneNumber"
+        android:layout_width="380dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="442dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="235dp"
+        android:background="@color/cardview_light_background"
+        android:text="Phone Number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/address"
-            android:layout_width="380dp"
-            android:layout_height="54dp"
-            android:background="@color/cardview_light_background"
-            android:text="Adresse" />
+    <TextView
+        android:id="@+id/url"
+        android:layout_width="380dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="496dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="181dp"
+        android:background="@color/cardview_light_background"
+        android:text="Website"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/phoneNumber"
-            android:layout_width="380dp"
-            android:layout_height="54dp"
-            android:background="@color/cardview_light_background"
-            android:text="Phone Number" />
-
-        <TextView
-            android:id="@+id/url"
-            android:layout_width="380dp"
-            android:layout_height="54dp"
-            android:background="@color/cardview_light_background"
-            android:text="Website" />
-
-        <TextView
-            android:id="@+id/aboutMe"
-            android:layout_width="379dp"
-            android:layout_height="140dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/cardview_light_background"
-            android:text="About User" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/aboutMe"
+        android:layout_width="380dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="562dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="29dp"
+        android:background="@color/cardview_light_background"
+        android:text="About User"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/favorite"
@@ -87,13 +119,13 @@
         android:layout_marginTop="293dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="390dp"
+        android:background="@drawable/ic_star_border_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.454"
-        app:srcCompat="@android:drawable/btn_star_big_off"
+        app:layout_constraintVertical_bias="0.545"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton

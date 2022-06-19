@@ -57,7 +57,7 @@ public class FavoriteNeighbourFragment extends Fragment {
     }
 
     /**
-     * Init the List of neighbours
+     * Init the List of favorite neighbours
      */
     private void initList() {
         mNeighbours = mApiService.getFavoriteNeighbours();
@@ -68,6 +68,7 @@ public class FavoriteNeighbourFragment extends Fragment {
                 Intent intent = new Intent(getContext(),UserProfilActivity.class);
 
                 // envoi des data
+                intent.putExtra("id",neighbour.getId());
                 intent.putExtra("avatarName",neighbour.getName().toString());
                 intent.putExtra("name",neighbour.getName().toString());
                 intent.putExtra("address",neighbour.getAddress().toString());
@@ -105,8 +106,8 @@ public class FavoriteNeighbourFragment extends Fragment {
      * @param event
      */
     @Subscribe
-    public void onDeleteNeighbour(DeleteNeighbourEvent event) {
-        mApiService.deleteNeighbour(event.neighbour);
+    public void onDeleteFavoriteNeighbour(DeleteNeighbourEvent event) {
+        mApiService.deleteFavoriteNeighbour(event.neighbour);
         initList();
     }
 }

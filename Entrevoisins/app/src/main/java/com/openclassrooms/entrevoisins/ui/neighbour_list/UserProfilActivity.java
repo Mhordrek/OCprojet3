@@ -2,6 +2,7 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +19,8 @@ import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +52,8 @@ public class UserProfilActivity extends AppCompatActivity {
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +81,35 @@ public class UserProfilActivity extends AppCompatActivity {
         mAboutMe.setText(aboutUser);
 
         Glide
-                .with(UserProfilActivity.this)
-                .load(mNeighbourUrl)
+                .with(this)
+                .load(mNeighbourUrl.getText())
                 .into(neighbourAvatar);
+
+        Neighbour neighbour = new Neighbour(
+                Id,
+                mUserName.getText().toString(),
+                mNeighbourUrl.getText().toString(),
+                mNeighbourAddress.getText().toString(),
+                mPhoneNumber.getText().toString(),
+                mAboutMe.getText().toString()
+        );
+
+        List<Neighbour> favoriteNeighbour = mApiService.getFavoriteNeighbours();
+
+
+        if(favoriteNeighbour.contains(neighbour)){
+
+
+            favoriteButton.setBackgroundResource(R.drawable.ic_star_white_24dp);
+
+        }else {
+
+            favoriteButton.setBackgroundResource(R.drawable.ic_star_border_white_24dp);
+
+        }
+
+
+
 
         // bouton qui permet de revenir à l'activité précédente
 
@@ -89,6 +120,8 @@ public class UserProfilActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // bouton favori qui permet j'ajouter un voisin à la liste de favori
 
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +134,23 @@ public class UserProfilActivity extends AppCompatActivity {
                         mPhoneNumber.getText().toString(),
                         mAboutMe.getText().toString()
                 );
-                mApiService.addFavoriteNeighbour(neighbour);
+
+                List<Neighbour> favoriteNeighbour = mApiService.getFavoriteNeighbours();
+
+
+
+                if(favoriteNeighbour.contains(neighbour)){
+
+
+                   mApiService.deleteFavoriteNeighbour(neighbour);
+                   favoriteButton.setBackgroundResource(R.drawable.ic_star_border_white_24dp);
+
+                }else {
+
+                   mApiService.addFavoriteNeighbour(neighbour);
+                   favoriteButton.setBackgroundResource(R.drawable.ic_star_white_24dp);
+               }
+
 
             }
         });
@@ -111,9 +160,5 @@ public class UserProfilActivity extends AppCompatActivity {
     }
 
 
+    }
 
-
-
-
-
-}
