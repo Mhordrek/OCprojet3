@@ -112,7 +112,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/favorite"
+        android:id="@+id/favoriteButton"
         android:layout_width="62dp"
         android:layout_height="59dp"
         android:layout_marginStart="343dp"
