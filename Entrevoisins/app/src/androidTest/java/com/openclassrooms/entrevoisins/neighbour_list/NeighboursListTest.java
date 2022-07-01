@@ -100,7 +100,7 @@ public class NeighboursListTest {
     }
 
     @Test
-    public void MyNeighbours_UserProfilActivity_IsOpen(){
+    public void MyNeighbours_UserProfilActivity_AvatarName_IsCorrect(){
         onView(withId(R.id.list_neighbours))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(withId(R.id.avatarname)).check(matches(withText(mApiservice.getNeighbours().get(0).getName())));

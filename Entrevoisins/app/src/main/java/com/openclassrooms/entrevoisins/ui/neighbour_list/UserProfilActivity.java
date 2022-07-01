@@ -96,6 +96,8 @@ public class UserProfilActivity extends AppCompatActivity {
                 mAboutMe.getText().toString()
         );
 
+        mNeighbourUrl.setText("www.Facebook.com/"+mUserName.getText().toString());
+
         List<Neighbour> favoriteNeighbour = mApiService.getFavoriteNeighbours();
 
 
