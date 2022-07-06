@@ -7,6 +7,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
 
+    GenericFragment fragment;
+
+
+
     public ListNeighbourPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -21,13 +25,11 @@ public class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
 
         switch (position){
 
-            case 0 : return NeighbourFragment.newInstance();
+            case 0 : return GenericFragment.newInstance(false);
 
-
-            case 1 : return FavoriteNeighbourFragment.newInstance();
+            case 1 : return GenericFragment.newInstance(true);
 
             default: return null;
-
         }
 
     }

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
-import com.openclassrooms.entrevoisins.events.DeleteFavoriteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
@@ -23,21 +22,33 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
-
-public class FavoriteNeighbourFragment extends Fragment {
+public class GenericFragment extends Fragment {
 
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
+    private boolean isFavorite;
 
 
-    /**
-     * Create and return a new instance
-     * @return @{@link FavoriteNeighbourFragment}
-     */
-    public static FavoriteNeighbourFragment newInstance() {
-        FavoriteNeighbourFragment fragment = new FavoriteNeighbourFragment();
+    public interface OnItemClickListener {
+        void onItemClick( Neighbour neighbour);
+    }
+
+
+    public static GenericFragment newInstance(Boolean isFavorite) {
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isfavorite",isFavorite);
+        GenericFragment fragment = new GenericFragment();
+        fragment.setArguments(bundle);
         return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+           isFavorite = bundle.getBoolean("isfavorite");
+
+        }
     }
 
     @Override
@@ -47,42 +58,67 @@ public class FavoriteNeighbourFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_favorite_neighbour_list, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view;
+        readBundle(getArguments());
+
+        if(isFavorite){
+
+            view = inflater.inflate(R.layout.fragment_favorite_neighbour_list, container, false);
+
+        }else{
+
+            view = inflater.inflate(R.layout.fragment_neighbour_list, container, false);
+        }
+
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+
         return view;
+
     }
 
-    /**
-     * Init the List of favorite neighbours
-     */
     private void initList() {
-        mNeighbours = mApiService.getFavoriteNeighbours();
-        mRecyclerView.setAdapter(new MyFavoriteNeighbourRecyclerViewAdapter(mNeighbours, new MyFavoriteNeighbourRecyclerViewAdapter.OnItemClickListener() {
+
+        if(isFavorite){
+
+            mNeighbours = mApiService.getFavoriteNeighbours();
+
+
+        }else{
+
+            mNeighbours = mApiService.getNeighbours();
+
+        }
+
+        // to do mettre nouvel adapteur qui devra utiliser le nouveau listener de la classe
+        mRecyclerView.setAdapter(new GenericRecyclerViewAdapter(mNeighbours, new GenericRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Neighbour neighbour) {
 
                 Intent intent = new Intent(getContext(),UserProfilActivity.class);
 
                 // envoi des data
+                //intent.putExtra("isFavorite",isFavorite);
                 intent.putExtra("id",neighbour.getId());
-                intent.putExtra("avatarName",neighbour.getName().toString());
-                intent.putExtra("name",neighbour.getName().toString());
-                intent.putExtra("address",neighbour.getAddress().toString());
-                intent.putExtra("phone",neighbour.getPhoneNumber().toString());
-                intent.putExtra("url",neighbour.getAvatarUrl().toString());
-                intent.putExtra("aboutUser",neighbour.getAboutMe().toString());
+                intent.putExtra("avatarName",neighbour.getName());
+                intent.putExtra("name",neighbour.getName());
+                intent.putExtra("address",neighbour.getAddress());
+                intent.putExtra("phone",neighbour.getPhoneNumber());
+                intent.putExtra("url",neighbour.getAvatarUrl());
+                intent.putExtra("aboutUser",neighbour.getAboutMe());
 
 
                 getContext().startActivity(intent);
 
             }
         }));
+
+
     }
+
 
     @Override
     public void onResume() {
@@ -106,9 +142,25 @@ public class FavoriteNeighbourFragment extends Fragment {
      * Fired if the user clicks on a delete button
      * @param event
      */
+
+
     @Subscribe
-    public void onDeleteFavoriteNeighbour(DeleteFavoriteNeighbourEvent event) {
-        mApiService.deleteFavoriteNeighbour(event.neighbour);
+    public void onDeleteNeighbour(DeleteNeighbourEvent event) {
+
+
+        if(isFavorite){
+
+            mApiService.deleteFavoriteNeighbour(event.neighbour);
+
+        }else{
+
+            mApiService.deleteNeighbour(event.neighbour);
+        }
+
         initList();
     }
 }
+
+
+
+
