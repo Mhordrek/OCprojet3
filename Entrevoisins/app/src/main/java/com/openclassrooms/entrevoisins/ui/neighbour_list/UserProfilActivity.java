@@ -53,8 +53,6 @@ public class UserProfilActivity extends AppCompatActivity {
 
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,25 +76,24 @@ public class UserProfilActivity extends AppCompatActivity {
         String phone = intent.getStringExtra("phone");
         mPhoneNumber.setText(phone);
         String url = intent.getStringExtra("url");
-        mNeighbourUrl.setText(url);
         String aboutUser = intent.getStringExtra("aboutUser");
         mAboutMe.setText(aboutUser);
 
         Glide
                 .with(this)
-                .load(mNeighbourUrl.getText())
+                .load(url)
                 .into(neighbourAvatar);
 
         Neighbour neighbour = new Neighbour(
                 Id,
                 mUserName.getText().toString(),
-                mNeighbourUrl.getText().toString(),
+                url,
                 mNeighbourAddress.getText().toString(),
                 mPhoneNumber.getText().toString(),
                 mAboutMe.getText().toString()
         );
 
-
+        mNeighbourUrl.setText("www.facebook.com/"+ mUserName.getText().toString());
 
         List<Neighbour> favoriteNeighbour = mApiService.getFavoriteNeighbours();
 
@@ -125,7 +122,7 @@ public class UserProfilActivity extends AppCompatActivity {
             }
         });
 
-        // bouton favori qui permet j'ajouter un voisin à la liste de favori
+        // bouton favori qui permet d'ajouter un voisin à la liste de favori
 
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,15 +130,13 @@ public class UserProfilActivity extends AppCompatActivity {
                 Neighbour neighbour = new Neighbour(
                         Id,
                         mUserName.getText().toString(),
-                        mNeighbourUrl.getText().toString(),
+                        url,
                         mNeighbourAddress.getText().toString(),
                         mPhoneNumber.getText().toString(),
                         mAboutMe.getText().toString()
                 );
 
                 List<Neighbour> favoriteNeighbour = mApiService.getFavoriteNeighbours();
-
-
 
                 if(favoriteNeighbour.contains(neighbour)){
 

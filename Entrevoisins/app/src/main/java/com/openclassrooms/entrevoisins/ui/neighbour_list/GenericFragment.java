@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
+import com.openclassrooms.entrevoisins.events.DeleteFavoriteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
@@ -114,7 +115,7 @@ public class GenericFragment extends Fragment {
                 getContext().startActivity(intent);
 
             }
-        }));
+        }, isFavorite));
 
 
     }
@@ -148,17 +149,26 @@ public class GenericFragment extends Fragment {
     public void onDeleteNeighbour(DeleteNeighbourEvent event) {
 
 
-        if(isFavorite){
 
-            mApiService.deleteFavoriteNeighbour(event.neighbour);
+        mApiService.deleteNeighbour(event.neighbour);
 
-        }else{
 
-            mApiService.deleteNeighbour(event.neighbour);
-        }
 
         initList();
     }
+
+    @Subscribe
+    public void onDeleteNeighbour(DeleteFavoriteNeighbourEvent event) {
+
+
+
+            mApiService.deleteFavoriteNeighbour(event.neighbour);
+
+
+
+        initList();
+    }
+
 }
 
 

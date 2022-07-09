@@ -133,7 +133,7 @@ public class NeighboursListTest {
         onView(withContentDescription("Favorites")).perform(click());
         onView(ViewMatchers.withId(R.id.favorite_list_neighbours)).check(withItemCount(1));
         onView(ViewMatchers.withId(R.id.favorite_list_neighbours))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, new DeleteViewAction()));
         onView(ViewMatchers.withId(R.id.favorite_list_neighbours)).check(withItemCount(0));
     }
 

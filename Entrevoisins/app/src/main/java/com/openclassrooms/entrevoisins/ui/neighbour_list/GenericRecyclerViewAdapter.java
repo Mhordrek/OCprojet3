@@ -1,6 +1,5 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.events.DeleteFavoriteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
@@ -26,15 +26,17 @@ public class GenericRecyclerViewAdapter extends RecyclerView.Adapter<GenericRecy
 
     private final List<Neighbour> mNeighbours;
     private final OnItemClickListener listener;
+    private final boolean isFavorite;
 
 
     public interface OnItemClickListener {
         void onItemClick( Neighbour neighbour);
     }
 
-    public GenericRecyclerViewAdapter(List<Neighbour> neighbours, GenericRecyclerViewAdapter.OnItemClickListener listener) {
+    public GenericRecyclerViewAdapter(List<Neighbour> neighbours, OnItemClickListener listener, boolean isFavorite) {
         mNeighbours = neighbours;
         this.listener = listener;
+        this.isFavorite = isFavorite;
     }
 
     @Override
@@ -56,7 +58,16 @@ public class GenericRecyclerViewAdapter extends RecyclerView.Adapter<GenericRecy
         holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
+
+                if(isFavorite){
+
+                    EventBus.getDefault().post(new DeleteFavoriteNeighbourEvent(neighbour));
+
+                }else{
+
+                    EventBus.getDefault().post(new DeleteNeighbourEvent(neighbour));
+                }
+
             }
         });
 
