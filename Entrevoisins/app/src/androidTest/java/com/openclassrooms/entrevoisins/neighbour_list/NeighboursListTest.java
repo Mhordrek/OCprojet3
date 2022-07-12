@@ -120,12 +120,19 @@ public class NeighboursListTest {
         onView(withId(R.id.backButton)).perform(click());
         onView(withContentDescription("Favorites")).perform(click());
         onView(ViewMatchers.withId(R.id.favorite_list_neighbours)).check(withItemCount(1));
+        onView(ViewMatchers.withId(R.id.favorite_list_neighbours))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, new DeleteViewAction()));
+        onView(withContentDescription("My neighbours")).perform(click());
+        onView(withId(R.id.list_neighbours))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+
 
 
     }
 
     @Test
     public void myFavoriteNeighboursList_deleteAction_shouldRemoveItem() {
+        onView(withContentDescription("My neighbours")).perform(click());
         onView(withId(R.id.list_neighbours))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
         onView(withId(R.id.favoriteButton)).perform(click());
