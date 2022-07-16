@@ -78,8 +78,6 @@ public class GenericRecyclerViewAdapter extends RecyclerView.Adapter<GenericRecy
         });
     }
 
-
-
     @Override
     public int getItemCount() {
         return mNeighbours.size();

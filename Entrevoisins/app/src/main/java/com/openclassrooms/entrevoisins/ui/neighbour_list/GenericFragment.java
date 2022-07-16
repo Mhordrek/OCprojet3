@@ -94,7 +94,7 @@ public class GenericFragment extends Fragment {
 
         }
 
-        // to do mettre nouvel adapteur qui devra utiliser le nouveau listener de la classe
+
         mRecyclerView.setAdapter(new GenericRecyclerViewAdapter(mNeighbours, new GenericRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Neighbour neighbour) {
@@ -149,10 +149,7 @@ public class GenericFragment extends Fragment {
     public void onDeleteNeighbour(DeleteNeighbourEvent event) {
 
 
-
         mApiService.deleteNeighbour(event.neighbour);
-
-
 
         initList();
     }
@@ -161,10 +158,7 @@ public class GenericFragment extends Fragment {
     public void onDeleteNeighbour(DeleteFavoriteNeighbourEvent event) {
 
 
-
             mApiService.deleteFavoriteNeighbour(event.neighbour);
-
-
 
         initList();
     }

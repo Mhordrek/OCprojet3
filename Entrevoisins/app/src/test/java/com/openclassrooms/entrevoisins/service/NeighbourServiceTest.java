@@ -68,6 +68,16 @@ public class NeighbourServiceTest {
         assertFalse(service.getFavoriteNeighbours().contains(favoriteNeighbourToDelete));
     }
 
+    @Test
+    public void getFavoriteNeighboursWithSuccess() {
+        Neighbour favneighbour1 = service.getNeighbours().get(0);
+        Neighbour favneighbour2 = service.getNeighbours().get(1);
+        service.addFavoriteNeighbour(favneighbour1);
+        service.addFavoriteNeighbour(favneighbour2);
+        List<Neighbour> favoriteNeighbours = service.getFavoriteNeighbours();
+        assertTrue(service.getFavoriteNeighbours().contains(favneighbour1));
+        assertTrue(service.getFavoriteNeighbours().contains(favneighbour2)); }
+
 
 
 

@@ -109,9 +109,6 @@ public class UserProfilActivity extends AppCompatActivity {
 
         }
 
-
-
-
         // bouton qui permet de revenir à l'activité précédente
 
 

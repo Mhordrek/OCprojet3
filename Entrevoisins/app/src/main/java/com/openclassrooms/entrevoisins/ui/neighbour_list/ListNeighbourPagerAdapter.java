@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
 
-    GenericFragment fragment;
-
 
 
     public ListNeighbourPagerAdapter(FragmentManager fm) {
@@ -33,8 +31,6 @@ public class ListNeighbourPagerAdapter extends FragmentPagerAdapter {
         }
 
     }
-
-
 
 
     /**
